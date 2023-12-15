@@ -83,7 +83,12 @@ namespace SummonerMatch
             ViewData["Rangos"] = _context.Rango.ToList();
             ViewData["Regiones"] = _context.Region.ToList();
             ViewData["Posiciones"] = _context.Posicion.ToList();
-            return View();
+
+            var usuario = HttpContext.Session.GetObject<Usuario>("Usuario");
+
+            List<Partida> partidas = _context.Partida.Where(p => p.FkUsuarioCreador == usuario.IdUsuario).ToList();
+
+            return View(partidas);
         }
 
         [HttpPost]
